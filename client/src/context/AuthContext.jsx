@@ -23,12 +23,13 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const { data } = await API.get('/auth/me');
+        const { data } = await API.get('/api/auth/me');
         setUser(data.user);
         initSocket(token);
       }
     } catch (error) {
       localStorage.removeItem('token');
+      setUser(null);
     } finally {
       setLoading(false);
     }
@@ -36,13 +37,16 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const { data } = await API.post('/auth/register', userData);
+      setLoading(true);
+      const { data } = await API.post('/api/auth/register', userData);
       localStorage.setItem('token', data.token);
       setUser(data.user);
       initSocket(data.token);
       toast.success('Registration successful!');
+      setLoading(false);
       return data;
     } catch (error) {
+      setLoading(false);
       toast.error(error.response?.data?.message || 'Registration failed');
       throw error;
     }
@@ -50,13 +54,16 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const { data } = await API.post('/auth/login', credentials);
+      setLoading(true);
+      const { data } = await API.post('/api/auth/login', credentials);
       localStorage.setItem('token', data.token);
       setUser(data.user);
       initSocket(data.token);
       toast.success('Login successful!');
+      setLoading(false);
       return data;
     } catch (error) {
+      setLoading(false);
       toast.error(error.response?.data?.message || 'Login failed');
       throw error;
     }
@@ -64,7 +71,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await API.post('/auth/logout');
+      await API.post('/api/auth/logout');
       localStorage.removeItem('token');
       setUser(null);
       disconnectSocket();
@@ -76,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async (updates) => {
     try {
-      const { data } = await API.put('/users/profile', updates);
+      const { data } = await API.put('/api/users/profile', updates);
       setUser(data.user);
       toast.success('Profile updated!');
     } catch (error) {

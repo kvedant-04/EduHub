@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -7,8 +7,16 @@ import { Mail, Lock } from 'lucide-react';
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
-  const { login } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { login, user } = useAuth();
   const navigate = useNavigate();
+
+  // Navigate to dashboard when user is set
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const validate = () => {
     const newErrors = {};
@@ -26,10 +34,13 @@ export default function Login() {
     }
 
     try {
+      setIsSubmitting(true);
       await login(formData);
-      navigate('/dashboard');
+      // Navigation happens in useEffect above when user state updates
     } catch (error) {
       console.error('Login failed:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -89,8 +100,8 @@ export default function Login() {
               {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
-              Login
+            <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
+              {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
           </form>
 

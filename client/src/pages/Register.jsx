@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -14,8 +14,16 @@ export default function Register() {
     role: location.state?.role || 'student'
   });
   const [errors, setErrors] = useState({});
-  const { register } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { register, user } = useAuth();
   const navigate = useNavigate();
+
+  // Navigate to dashboard when user is set
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const validate = () => {
     const newErrors = {};
@@ -36,10 +44,13 @@ export default function Register() {
     }
 
     try {
+      setIsSubmitting(true);
       await register(formData);
-      navigate('/dashboard');
+      // Navigation happens in useEffect above when user state updates
     } catch (error) {
       console.error('Registration failed:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -148,8 +159,8 @@ export default function Register() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
-              Create Account
+            <button type="submit" className="btn btn-primary w-full" disabled={isSubmitting}>
+              {isSubmitting ? 'Creating Account...' : 'Create Account'}
             </button>
           </form>
 

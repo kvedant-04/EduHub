@@ -99,70 +99,98 @@ EduHub/
     ├── routes/               # API Endpoints
     ├── socket/               # WebSocket logic
     └── server.js             # Entry point
-⚙️ Local Setup & Installation
-1️⃣ Clone the Repository
-Bash
+```
+
+---
+
+## ⚙️ Local Setup & Installation
+
+### 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/kvedant-04/EduHub
 cd EduHub
-2️⃣ Backend Configuration
-Bash
+```
+
+### 2️⃣ Backend Configuration
+
+```bash
 cd server
 npm install
+```
+
 Create a .env file in the server directory:
 
-Code snippet
+```env
 PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRE=7d
 NODE_ENV=development
 CLIENT_URL=http://localhost:5173
-npm run dev
+```
 
-3️⃣ Frontend Configuration
-Bash
+```bash
+npm run dev
+```
+
+### 3️⃣ Frontend Configuration
+
+```bash
 cd ../client
 npm install
+```
+
 Create a .env file in the client directory:
 
-Code snippet
+```env
 VITE_API_URL=http://localhost:5000
-npm run dev
+```
 
-🚀 Usage Guide
-For Students
+```bash
+npm run dev
+```
+
+## 🚀 Usage Guide
+
+### For Students
 Join classes using Class Codes.
 
 View performance via XP and Level progress bars.
 
 Submit assignments and attend live meetings directly from the dashboard.
 
-For Teachers
+### For Teachers
 Create classes and generate unique Invite Codes.
 
 Host meetings with moderator controls.
 
 Grade assignments and monitor Class Analytics.
 
-For Admins
+### For Admins
 High-level overview of system statistics.
 
 Verify teacher accounts and manage user permissions.
 
-🎨 UI / UX Excellence
+---
+
+## 🎨 UI / UX Excellence
 Responsive Design: Optimized for Mobile, Tablet, and Desktop.
 
 Theme Support: Native Dark and Light mode options.
 
 Interactive Feedback: Toast notifications and loading skeletons for a seamless feel.
 
-👨‍💻 Author
+---
+
+## 👨‍💻 Author
 Vedant Kolhe
 Third-year Computer Engineering student
 
-📄 License
+---
+
+## 📄 License
 This project is licensed under the MIT License.
 
-[!NOTE]
-
-EduHub was built as a full-cycle MERN project, covering everything from system design and authentication to real-time communication and cloud deployment.
+> [!NOTE]
+> EduHub was built as a full-cycle MERN project, covering everything from system design and authentication to real-time communication and cloud deployment.
